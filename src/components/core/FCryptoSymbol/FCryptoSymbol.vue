@@ -9,9 +9,10 @@
 </template>
 
 <script>
-import glxyIcon from '../../../assets/svg/tokens/GLXY.png';
-import wglxyIcon from '../../../assets/svg/tokens/wGLXY.png';
-import fusdIcon from '../../../assets/svg/tokens/fUSD.svg';
+import config from '../../../../app.config'
+import Icon from '../../../assets/svg/tokens/logo.svg';
+import wIcon from '../../../assets/svg/tokens/logo.svg';
+import usdIcon from '../../../assets/svg/tokens/USD.svg';
 
 /**
  * Render crypto logo and name by given token.
@@ -55,12 +56,12 @@ export default {
 
             if (token) {
                 switch (token.symbol) {
-                    case 'GLXY':
-                        return glxyIcon;
-                    case 'WGLXY':
-                        return wglxyIcon;
-                    case 'FUSD':
-                        return fusdIcon;
+                    case config.symbol:
+                        return Icon;
+                    case config.wsymbol:
+                        return wIcon;
+                    case config.usdsymbol:
+                        return usdIcon;
                 }
             }
 

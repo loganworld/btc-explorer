@@ -1,6 +1,6 @@
-# GLXY Explorer
+# bitcoin explorer
 
-JavaScript and Vue based GLXY explorer.
+JavaScript and Vue based bitcoin explorer.
 
 We are using:
 * Node / NPM

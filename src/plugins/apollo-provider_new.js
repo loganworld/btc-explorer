@@ -3,9 +3,11 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 // New Imports
-import { ApolloLink, concat } from 'apollo-link'
+import { ApolloLink, concat, split } from 'apollo-link'
 import { RetryLink } from "apollo-link-retry";
 import { onError } from 'apollo-link-error';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
 import VueApollo from 'vue-apollo'
 
@@ -48,6 +50,24 @@ function resetHttpApolloProviders() {
 const httpLink = new HttpLink({
     uri: httpProvider
 });
+
+const wsLink = new WebSocketLink({
+    uri: 'wss://graphql.bitcoin.live/graphql',
+    options: {
+        reconnect: true,
+    },
+})
+
+const link = split(
+    // split based on operation type
+    ({ query }) => {
+        const definition = getMainDefinition(query)
+        return definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+    },
+    wsLink,
+    httpLink
+)
 
 export function getCurrentHttpProvider() {
     return httpProvider;
@@ -100,7 +120,7 @@ export const apolloClient = new ApolloClient({
     link: ApolloLink.from([
         errorLink,
         retryLink,
-        concat(httpProviderMiddleware, httpLink)
+        concat(httpProviderMiddleware, link)
     ]),
     cache: new InMemoryCache(),
     connectToDevTools: true

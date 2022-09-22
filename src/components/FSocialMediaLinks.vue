@@ -1,35 +1,35 @@
 <template>
     <ul class="f-social-media-links no-markers">
-        <li>
-            <a href="https://t.co/rUA9BE8kf2?amp=1" target="_blank" rel="nofollow" title="GLXY on Discord">
+        <!-- <li>
+            <a href="https://t.co/rUA9BE8kf2?amp=1" target="_blank" rel="nofollow" title="bitcoin on Discord">
                 <icon data="@/assets/svg/social-media/discord.svg" width="24" height="24"></icon>
             </a>
         </li>
         <li>
-            <a href="https://twitter.com/GLXYFDN" target="_blank" rel="nofollow" title="GLXY on Twitter">
+            <a href="https://twitter.com/bitcoinFDN" target="_blank" rel="nofollow" title="bitcoin on Twitter">
                 <icon data="@/assets/svg/social-media/twitter.svg" width="24" height="24"></icon>
             </a>
         </li>
         <li>
-            <a href="https://www.reddit.com/r/GLXYFoundation/" target="_blank" rel="nofollow" title="GLXY on Reddit">
+            <a href="https://www.reddit.com/r/bitcoinFoundation/" target="_blank" rel="nofollow" title="bitcoin on Reddit">
                 <icon data="@/assets/svg/social-media/reddit.svg" width="24" height="24"></icon>
             </a>
         </li>
         <li>
-            <a href="https://github.com/GLXY-Foundation" target="_blank" rel="nofollow" title="GLXY on Github">
+            <a href="https://github.com/bitcoin-Foundation" target="_blank" rel="nofollow" title="bitcoin on Github">
                 <icon data="@/assets/svg/social-media/github.svg" width="24" height="24"></icon>
             </a>
         </li>
         <li>
-            <a href="https://medium.com/GLXYfoundation" target="_blank" rel="nofollow" title="GLXY on Medium">
+            <a href="https://medium.com/bitcoinfoundation" target="_blank" rel="nofollow" title="bitcoin on Medium">
                 <icon data="@/assets/svg/social-media/medium.svg" width="24" height="24"></icon>
             </a>
         </li>
         <li>
-            <a href="https://www.linkedin.com/company/GLXY-foundation/" target="_blank" rel="nofollow" title="GLXY on Linkedin" class="linkedin">
+            <a href="https://www.linkedin.com/company/bitcoin-foundation/" target="_blank" rel="nofollow" title="bitcoin on Linkedin" class="linkedin">
                 <icon data="@/assets/svg/social-media/linkedin.svg" width="24" height="24"></icon>
             </a>
-        </li>
+        </li> -->
     </ul>
 </template>
 

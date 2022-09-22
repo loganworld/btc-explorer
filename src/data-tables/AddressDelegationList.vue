@@ -81,11 +81,12 @@
 </template>
 
 <script>
+import appConfig from '../../app.config.js';
 import FDataTable from '@/components/core/FDataTable/FDataTable.vue';
 import gql from 'graphql-tag';
 import { cloneObject } from '@/utils';
 import { formatDate, formatHexToInt, timestampToDate } from '@/filters.js';
-import { WEIToGLXY } from '@/utils/transactions.js';
+import { WEITo } from '@/utils/transactions.js';
 import FTokenValue from "@/components/core/FTokenValue/FTokenValue.vue";
 // import { formatHexToInt } from '@/filters.js';
 
@@ -188,6 +189,7 @@ export default {
     },
 
     data() {
+        const symbol = appConfig.symbol
         return {
             columns: [
                 {
@@ -205,17 +207,17 @@ export default {
                 },
                 {
                     name: 'amount',
-                    label: 'Amount (GLXY)',
+                    label: 'Amount (' + symbol + ')',
                     itemProp: 'delegation.amount',
-                    formatter: (_value) => WEIToGLXY(_value),
+                    formatter: (_value) => WEITo(_value),
                     width: '160px',
                     cssClass: 'align-end',
                 },
                 {
                     name: 'rewards',
-                    label: 'Pending Rewards (GLXY)',
+                    label: 'Pending Rewards (' + symbol + ')',
                     itemProp: 'delegation.pendingRewards',
-                    formatter: (_value) => (_value ? WEIToGLXY(_value.amount) : '-'),
+                    formatter: (_value) => (_value ? WEITo(_value.amount) : '-'),
                     width: '200px',
                     cssClass: 'align-end',
                 },
