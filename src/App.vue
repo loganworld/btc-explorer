@@ -37,33 +37,33 @@
         },
 
         apollo: {
-            price: {
-                query: gql`
-                    query Price($to: String!) {
-                        price(to: $to) {
-                            price
-                        }
-                    }
-                `,
+            // price: {
+            //     query: gql`
+            //         query Price($to: String!) {
+            //             price(to: $to) {
+            //                 price
+            //             }
+            //         }
+            //     `,
 
-                result(_data) {
-                    if (!_data.data.price) {
-                        return;
-                    }
+            //     result(_data) {
+            //         if (!_data.data||!_data.data.price) {
+            //             return;
+            //         }
 
-                    let tokenPrice =  parseFloat(_data.data.price.price);
+            //         let tokenPrice =  parseFloat(_data.data.price.price);
 
-                    tokenPrice = (parseInt(tokenPrice * 100000) / 100000);
+            //         tokenPrice = (parseInt(tokenPrice * 100000) / 100000);
 
-                    this.$store.commit('setTokenPrice', tokenPrice);
-                },
+            //         this.$store.commit('setTokenPrice', tokenPrice);
+            //     },
 
-                variables() {
-                    return {
-                        to: 'USD'
-                    }
-                }
-            },
+            //     variables() {
+            //         return {
+            //             to: 'USD'
+            //         }
+            //     }
+            // },
 
             gasPrice: {
                 query: gql`

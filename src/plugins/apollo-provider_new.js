@@ -52,7 +52,7 @@ const httpLink = new HttpLink({
 });
 
 const wsLink = new WebSocketLink({
-    uri: 'wss://graphql.bitcoin.live/graphql',
+    uri: 'wss://graphql.bitcoinevm.co/graphql',
     options: {
         reconnect: true,
     },

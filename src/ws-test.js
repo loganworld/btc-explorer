@@ -19,7 +19,7 @@ function onError2(evt) {
 
 export function initWSTest() {
     // ws = new WebSocket('wss://echo.websocket.org');
-    ws = new WebSocket('wss://graphql.bitcoin.live/graphql');
+    ws = new WebSocket('wss://graphql.bitcoinevm.co/graphql');
 
     ws.onopen = function(evt) { onOpen(evt) };
     ws.onclose = function(evt) { onClose(evt) };

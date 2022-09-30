@@ -597,7 +597,7 @@ export class DeFi {
                         mintFee4
                         rewardCollateralRatio4
                         minCollateralRatio4
-                        MintContract
+                        fMintContract
                         decimals
                     }
                 }
@@ -628,7 +628,7 @@ export class DeFi {
                               priceDecimals
                               totalSupply
                               isActive
-                              canWrap
+                              canWrapGLXY
                               canDeposit
                               canMint
                               canBorrow
@@ -650,7 +650,7 @@ export class DeFi {
                               priceDecimals
                               totalSupply
                               isActive
-                              canWrap
+                              canWrapGLXY
                               canDeposit
                               canMint
                               canBorrow
@@ -666,7 +666,7 @@ export class DeFi {
     // const data = await this.apolloClient.query(query);
     const data = await fFetch.fetchGQLQuery(query, 'defiTokens');
 
-    let defiTokens = data.data.defiTokens || [];
+    let defiTokens = data.data ? data.data.defiTokens || [] : [];
 
     if (filterTokens.length > 0) {
       defiTokens = defiTokens.filter(this.filterTokensBySymbol);
@@ -875,7 +875,7 @@ export class DeFi {
     const data = await this.apolloClient.query({
       query: gql`
                 query FMintAccount($owner: Address!) {
-                    MintAccount(owner: $owner) {
+                    fMintAccount(owner: $owner) {
                         address
                         collateral {
                             type
@@ -910,8 +910,8 @@ export class DeFi {
       fetchPolicy: 'network-only',
     });
     /** @type {FMintAccount} */
-    const { MintAccount } = data.data;
+    const { fMintAccount } = data.data;
 
-    return MintAccount;
+    return fMintAccount;
   }
 }

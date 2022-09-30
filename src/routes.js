@@ -5,6 +5,7 @@ import Transactions from "./views/Transactions.vue";
 import TransactionDetail from "./views/TransactionDetail.vue";
 import AddressDetail from "./views/AddressDetail.vue";
 import Blocks from "./views/Blocks.vue";
+import Wallets from "./views/Wallets.vue";
 import BlockDetail from "./views/BlockDetail.vue";
 import Validators from "./views/Validators.vue";
 import ValidatorDetail from "./views/ValidatorDetail.vue";
@@ -44,6 +45,11 @@ export const routes = [
         name: "blocks",
         path: "/blocks",
         component: Blocks
+    },
+    {
+        name: "wallets",
+        path: "/wallets",
+        component: Wallets
     },
     {
         name: "block-detail",

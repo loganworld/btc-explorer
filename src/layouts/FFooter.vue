@@ -4,7 +4,7 @@
             <div class="row align-items-center">
                 <div class="col align-center-sm"><f-social-media-links></f-social-media-links></div>
                 <div class="col align-center-sm align-end">
-                    <a href="https://bitcoin.live/" target="_blank" rel="nofollow">©2022 bitcoin.live</a>
+                    <a href="https://bitcoinevm.co/" target="_blank" rel="nofollow">©2022 bitcoinevm.co</a>
                 </div>
             </div>
         </div>

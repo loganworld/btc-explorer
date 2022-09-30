@@ -23,12 +23,12 @@
                     {{ formatNumberByLocale($defi.fromTokenValue(token.totalSupply, token).toFixed(0), 0) }}
                 </div>
             </div>
-            <div class="row no-collapse">
+            <!-- <div class="row no-collapse">
                 <div class="col-4 f-row-label">{{ $t('view_assets.price') }}</div>
                 <div class="col">
                     $ {{ formatNumberByLocale($defi.fromTokenValue(token.price, token), $defi.getTokenDecimals(token)) }}
                 </div>
-            </div>
+            </div> -->
             <div class="row no-collapse">
                 <div class="col-4 f-row-label">{{ $t('view_assets.decimals') }}</div>
                 <div class="col">{{ token.decimals }}</div>
@@ -70,7 +70,7 @@ export default {
         async init() {
             const { $defi } = this;
             const result = await Promise.all([
-                $defi.fetchTokens(),
+                $defi.fetchERC20Tokens(),
                 $defi.init(),
             ]);
 
