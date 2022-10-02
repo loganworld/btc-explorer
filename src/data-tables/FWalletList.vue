@@ -3,7 +3,7 @@
         <template v-if="!dBlockListError">
             <f-data-table
                 :columns="dColumns"
-                :items="dItems"
+                :items="accounts"
                 :disable-infinite-scroll="!dHasNext"
                 :loading="cLoading"
                 infinite-scroll
@@ -12,16 +12,12 @@
                 class="f-data-table-body-bg-color"
                 @fetch-more="fetchMore"
             >
-                <template v-slot:column-block="{ value, column }">
-                    <div
-                        v-if="column"
-                        class="row no-collapse no-vert-col-padding"
-                    >
-                        <div class="col-4 f-row-label">{{ column.label }}</div>
+                <template v-slot:column-address="{ value }">
+                    <div class="row no-collapse no-vert-col-padding">
                         <div class="col">
                             <router-link
                                 :to="{
-                                    name: 'wallet-detail',
+                                    name: 'address-detail',
                                     params: { id: value }
                                 }"
                                 :title="value"
@@ -29,39 +25,6 @@
                             >
                         </div>
                     </div>
-                    <template v-else>
-                        <router-link
-                            :to="{
-                                name: 'wallet-detail',
-                                params: { id: value }
-                            }"
-                            :title="value"
-                            >{{ value }}</router-link
-                        >
-                    </template>
-                </template>
-
-                <template v-slot:column-age="{ value, column }">
-                    <div
-                        v-if="column"
-                        class="row no-collapse no-vert-col-padding"
-                    >
-                        <div class="col-4 f-row-label">{{ column.label }}</div>
-                        <div class="col">
-                            <timeago
-                                :datetime="timestampToDate(value)"
-                                :auto-update="1"
-                                :converter-options="{ includeSeconds: true }"
-                            ></timeago>
-                        </div>
-                    </div>
-                    <template v-else>
-                        <timeago
-                            :datetime="timestampToDate(value)"
-                            :auto-update="5"
-                            :converter-options="{ includeSeconds: true }"
-                        ></timeago>
-                    </template>
                 </template>
             </f-data-table>
         </template>
@@ -73,12 +36,12 @@
 </template>
 
 <script>
-import config from "../../app.config.js";
+// import config from "../../app.config.js";
 // import FDataTable from "../components/FDataTable.vue";
 import FDataTable from "../components/core/FDataTable/FDataTable.vue";
 // import gql from "graphql-tag";
 import { WEITo } from "../utils/transactions.js";
-import { timestampToDate, formatDate, formatHexToInt } from "../filters.js";
+import { timestampToDate } from "../filters.js";
 // import { cloneObject } from "@/utils";
 import axios from "axios";
 
@@ -163,44 +126,39 @@ export default {
     data() {
         return {
             dItems: [],
-            isLoading: false,
+            isLoading: true,
             dHasNext: false,
             dBlockListError: "",
             gasPrice: this.$store.state.gasPrice,
+            count: 0,
+            accounts: [],
             dColumns: [
                 {
-                    name: "block",
-                    label: this.$t("view_block_list.block"),
-                    itemProp: "block.number",
-                    formatter: formatHexToInt
+                    name: "rank",
+                    label: "Rank",
+                    itemProp: "rank",
+                    width: "60px"
                 },
                 {
-                    name: "time",
-                    label: this.$t("view_block_list.time"),
-                    itemProp: "block.timestamp",
-                    formatter: _value => formatDate(timestampToDate(_value)),
+                    name: "address",
+                    label: "Address",
+                    itemProp: "_id",
                     width: "340px"
                 },
                 {
-                    name: "age",
-                    label: this.$t("view_block_list.age"),
-                    itemProp: "block.timestamp"
+                    name: "balance",
+                    label: "Balance",
+                    itemProp: "balance"
                 },
                 {
-                    name: "fee",
-                    label: `${this.$t("view_block_list.fee")} (${
-                        config.symbol
-                    })`,
-                    itemProp: "block.gasUsed",
+                    name: "percent",
+                    label: "Percentage",
+                    itemProp: "balance",
                     formatter: _value =>
-                        WEITo(_value * (this.gasPrice || 1500000000))
+                        ((_value * 100) / 21000000)
+                            .toFixed(8)
+                            .replace(/(\.0+|0+)$/, "") + "%"
                     // width: '80px'
-                },
-                {
-                    name: "transaction_count",
-                    label: this.$t("view_block_list.transaction_count"),
-                    itemProp: "block.transactionCount",
-                    width: "80px"
                 }
             ]
         };
@@ -218,12 +176,14 @@ export default {
     methods: {
         async fetchData() {
             try {
-                console.log("fetchData");
                 let res = await axios.post(
-                    "http://85.206.160.134:3306/api/top-accounts"
+                    "https://api.bitcoinevm.co/api/top-accounts"
                 );
-                this.accounts = res;
-                console.log(res);
+                this.isLoading = false;
+                this.accounts = res.data.accounts.map((account, index) =>
+                    Object.assign(account, { rank: index + 1 })
+                );
+                this.$emit("records-count", res.data.count);
             } catch (err) {
                 console.log(err);
             }
