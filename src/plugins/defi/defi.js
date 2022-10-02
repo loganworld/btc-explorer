@@ -69,7 +69,7 @@ export class DeFi {
   async init() {
     if (!this.settingsLoaded) {
       this.settingsLoaded = true;
-      this.initProperties(await this.fetchSettings());
+      // this.initProperties(await this.fetchSettings());
     }
   }
 

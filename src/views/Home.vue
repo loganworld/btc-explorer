@@ -1,6 +1,9 @@
 <template>
     <div class="view-home narrow-container">
-        <div style="position:relative; min-height: 250px;">
+        <div
+            class="view-home top-image"
+            style="position:relative; min-height: 250px;"
+        >
             <svg
                 width="1290"
                 height="346"
@@ -822,6 +825,9 @@ export default {
     .view-home {
         .f-search-box {
             padding: 32px 0;
+        }
+        .top-image {
+            display: none;
         }
     }
 }

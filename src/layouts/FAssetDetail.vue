@@ -2,25 +2,46 @@
     <div class="f-asset-detail f-data-layout">
         <f-card>
             <div class="row no-collapse">
-                <div class="col-4 f-row-label">{{ $t('view_assets.symbol') }}</div>
+                <div class="col-4 f-row-label">
+                    {{ $t("view_assets.symbol") }}
+                </div>
                 <div class="col"><f-crypto-symbol :token="token" /></div>
             </div>
             <div class="row no-collapse">
-                <div class="col-4 f-row-label">{{ $t('view_assets.name') }}</div>
+                <div class="col-4 f-row-label">
+                    {{ $t("view_assets.name") }}
+                </div>
                 <div class="col">{{ token.name }}</div>
             </div>
             <div class="row no-collapse">
-                <div class="col-4 f-row-label">{{ $t('view_assets.contract') }}</div>
+                <div class="col-4 f-row-label">
+                    {{ $t("view_assets.contract") }}
+                </div>
                 <div class="col">
-                    <router-link :to="{name: 'address-detail', params: {id: token.address}}" :title="token.address">
+                    <router-link
+                        :to="{
+                            name: 'address-detail',
+                            params: { id: token.address }
+                        }"
+                        :title="token.address"
+                    >
                         <f-ellipsis :text="token.address" overflow="middle" />
                     </router-link>
                 </div>
             </div>
             <div class="row no-collapse">
-                <div class="col-4 f-row-label">{{ $t('view_assets.total_supply') }}</div>
+                <div class="col-4 f-row-label">
+                    {{ $t("view_assets.total_supply") }}
+                </div>
                 <div class="col">
-                    {{ formatNumberByLocale($defi.fromTokenValue(token.totalSupply, token).toFixed(0), 0) }}
+                    {{
+                        formatNumberByLocale(
+                            $defi
+                                .fromTokenValue(token.totalSupply, token)
+                                .toFixed(0),
+                            0
+                        )
+                    }}
                 </div>
             </div>
             <!-- <div class="row no-collapse">
@@ -30,7 +51,9 @@
                 </div>
             </div> -->
             <div class="row no-collapse">
-                <div class="col-4 f-row-label">{{ $t('view_assets.decimals') }}</div>
+                <div class="col-4 f-row-label">
+                    {{ $t("view_assets.decimals") }}
+                </div>
                 <div class="col">{{ token.decimals }}</div>
             </div>
         </f-card>
@@ -41,28 +64,28 @@
 import FEllipsis from "@/components/core/FEllipsis/FEllipsis.vue";
 import FCard from "@/components/core/FCard/FCard.vue";
 import FCryptoSymbol from "@/components/core/FCryptoSymbol/FCryptoSymbol.vue";
-import {formatNumberByLocale} from "@/filters.js";
+import { formatNumberByLocale } from "@/filters.js";
 
 export default {
     name: "FAssetDetail",
-    components: {FCryptoSymbol, FCard, FEllipsis},
+    components: { FCryptoSymbol, FCard, FEllipsis },
     props: {
         /** Token address */
         address: {
             type: String,
             required: true,
-            default: ''
+            default: ""
         }
     },
 
     data() {
         return {
             /** @type {DefiToken} */
-            token: {},
+            token: {}
         };
     },
 
-    created() {
+    mounted() {
         this.init();
     },
 
@@ -71,21 +94,20 @@ export default {
             const { $defi } = this;
             const result = await Promise.all([
                 $defi.fetchERC20Tokens(),
-                $defi.init(),
+                // $defi.init()
             ]);
 
-            const token = result[0].filter((_item) => _item.address === this.address);
-
+            const token = result[0].filter(
+                _item => _item.address === this.address
+            );
             if (token) {
                 this.token = token[0];
             }
         },
 
-        formatNumberByLocale,
-    },
-}
+        formatNumberByLocale
+    }
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

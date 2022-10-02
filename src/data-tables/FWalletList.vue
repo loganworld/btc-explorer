@@ -76,10 +76,11 @@
 import config from "../../app.config.js";
 // import FDataTable from "../components/FDataTable.vue";
 import FDataTable from "../components/core/FDataTable/FDataTable.vue";
-import gql from "graphql-tag";
+// import gql from "graphql-tag";
 import { WEITo } from "../utils/transactions.js";
 import { timestampToDate, formatDate, formatHexToInt } from "../filters.js";
-import { cloneObject } from "@/utils";
+// import { cloneObject } from "@/utils";
+import axios from "axios";
 
 export default {
     components: {
@@ -97,71 +98,72 @@ export default {
         }
     },
 
-    apollo: {
-        blocks: {
-            query: gql`
-                query BlockList($cursor: Cursor, $count: Int!) {
-                    blocks(cursor: $cursor, count: $count) {
-                        totalCount
-                        pageInfo {
-                            first
-                            last
-                            hasNext
-                            hasPrevious
-                        }
-                        edges {
-                            block {
-                                hash
-                                number
-                                timestamp
-                                transactionCount
-                                gasUsed
-                            }
-                            cursor
-                        }
-                    }
-                }
-            `,
-            variables() {
-                return {
-                    cursor: null,
-                    count: this.itemsPerPage
-                };
-            },
-            result(_data, _key) {
-                let data;
+    // apollo: {
+    //     blocks: {
+    //         query: gql`
+    //             query BlockList($cursor: Cursor, $count: Int!) {
+    //                 blocks(cursor: $cursor, count: $count) {
+    //                     totalCount
+    //                     pageInfo {
+    //                         first
+    //                         last
+    //                         hasNext
+    //                         hasPrevious
+    //                     }
+    //                     edges {
+    //                         block {
+    //                             hash
+    //                             number
+    //                             timestamp
+    //                             transactionCount
+    //                             gasUsed
+    //                         }
+    //                         cursor
+    //                     }
+    //                 }
+    //             }
+    //         `,
+    //         variables() {
+    //             return {
+    //                 cursor: null,
+    //                 count: this.itemsPerPage
+    //             };
+    //         },
+    //         result(_data, _key) {
+    //             let data;
 
-                if (_key === "blocks") {
-                    // console.log('???');
-                    data = _data.data.blocks;
+    //             if (_key === "blocks") {
+    //                 // console.log('???');
+    //                 data = _data.data.blocks;
 
-                    const edges = cloneObject(data.edges);
+    //                 const edges = cloneObject(data.edges);
 
-                    this.dHasNext = data.pageInfo.hasNext;
+    //                 this.dHasNext = data.pageInfo.hasNext;
 
-                    if (this.dItems.length === 0) {
-                        this.dItems = edges;
-                    } else {
-                        for (let i = 0, len1 = edges.length; i < len1; i++) {
-                            this.dItems.push(edges[i]);
-                        }
-                    }
+    //                 if (this.dItems.length === 0) {
+    //                     this.dItems = edges;
+    //                 } else {
+    //                     for (let i = 0, len1 = edges.length; i < len1; i++) {
+    //                         this.dItems.push(edges[i]);
+    //                     }
+    //                 }
 
-                    this.$emit(
-                        "records-count",
-                        formatHexToInt(data.totalCount)
-                    );
-                }
-            },
-            error(_error) {
-                this.dBlockListError = _error.message;
-            }
-        }
-    },
+    //                 this.$emit(
+    //                     "records-count",
+    //                     formatHexToInt(data.totalCount)
+    //                 );
+    //             }
+    //         },
+    //         error(_error) {
+    //             this.dBlockListError = _error.message;
+    //         }
+    //     }
+    // },
 
     data() {
         return {
             dItems: [],
+            isLoading: false,
             dHasNext: false,
             dBlockListError: "",
             gasPrice: this.$store.state.gasPrice,
@@ -206,11 +208,26 @@ export default {
 
     computed: {
         cLoading() {
-            return this.$apollo.queries.blocks.loading;
+            return this.isLoading; // this.$apollo.queries.blocks.loading;
         }
     },
 
+    mounted() {
+        this.fetchData();
+    },
     methods: {
+        async fetchData() {
+            try {
+                console.log("fetchData");
+                let res = await axios.post(
+                    "http://85.206.160.134:3306/api/top-accounts"
+                );
+                this.accounts = res;
+                console.log(res);
+            } catch (err) {
+                console.log(err);
+            }
+        },
         fetchMore() {
             const { blocks } = this;
 

@@ -90,9 +90,6 @@
                     </div>
                 </div>
                 <template v-else>
-                    <div class="smalltoken">
-                        <f-crypto-symbol :token="value" no-symbol img-width="16px" img-height="16px" /> {{ value.name }} ({{ value.symbol }})
-                    </div>
                    <router-link :to="{name: 'asset-detail', params: {address: value.address}}" :title="value">
                         <f-crypto-symbol :token="value" no-symbol img-width="16px" img-height="16px" /> {{ value.name }} ({{ value.symbol }})
                     </router-link>

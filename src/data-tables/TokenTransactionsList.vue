@@ -8,6 +8,7 @@
                 :value="tx.amount"
                 convert-value
                 :use-placeholder="false"
+                :address = "tx.tokenAddress"
             />
             <small>({{ tx.tokenType }})</small>
             <template v-if="isOtherAddress(tx.sender)">
