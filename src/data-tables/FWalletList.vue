@@ -177,7 +177,7 @@ export default {
         async fetchData() {
             try {
                 let res = await axios.post(
-                    "https://api.bitcoinevm.co/api/top-accounts"
+                    "https://test-api.bitcoinevm.co/api/top-accounts"
                 );
                 this.isLoading = false;
                 this.accounts = res.data.accounts.map((account, index) =>
