@@ -155,7 +155,7 @@ export default {
                     label: "Percentage",
                     itemProp: "balance",
                     formatter: _value =>
-                        ((_value * 100) / 21000000)
+                        ((_value * 100) / 22000000)
                             .toFixed(8)
                             .replace(/(\.0+|0+)$/, "") + "%"
                     // width: '80px'
